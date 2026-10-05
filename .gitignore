@@ -1,0 +1,16 @@
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+
+# Environments
+env/
+venv/
+ENV/
+*.env
+
+# VSCode
+.vscode/
+
+# Benchmark outputs / logs
+*.csv
+*.log
