@@ -56,7 +56,7 @@ def run_cplex_cp(board, n):
         solve_time = time.perf_counter() - t_solve_start
 
         if res:
-            status_str = res.get_solve_status() # Optimal / Feasible /...
+            status_str = res.get_solve_status() # Feasible
             if res.is_solution():
                 solved_board = [[0] * n for _ in range(n)]
                 for r in range(n):

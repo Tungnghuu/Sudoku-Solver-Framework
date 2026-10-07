@@ -90,11 +90,11 @@ if __name__ == "__main__":
     from utils.printing_board import print_sudoku
     from utils.readSudoku import read_sudoku
 
-    filepath = "data/9/sudoku_9_0.txt"
+    filepath = "data/36/sudoku_36_0.txt"
     board = read_sudoku(filepath)
     size = len(board)
 
-    print(f"=== Testing CPLEX CP Solver on {size}x{size} Board ===")
+    print(f"=== Testing CPLEX MIP Solver on {size}x{size} Board ===")
     result = run_cplex_mip(board, size)
 
     print(f"Status: {result['status']}")

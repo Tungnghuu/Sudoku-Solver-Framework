@@ -1,7 +1,7 @@
 import time
 from pysat.solvers import Solver
-from encoding.cnf_encoding import value, getSudokuFormula
-from utils.printing_board import returnSolvedBoard_sat
+from src.encoding.cnf_encoding import value, getSudokuFormula
+from src.utils.printing_board import returnSolvedBoard_sat
 
 def run_sat(board, n, solver_name='g3'):
     t_enc_start = time.perf_counter()
@@ -53,11 +53,11 @@ if __name__ == "__main__":
     from utils.printing_board import print_sudoku
     from utils.readSudoku import read_sudoku
 
-    filepath = "data/9/sudoku_9_0.txt"
+    filepath = "data/36/sudoku_36_0.txt"
     board = read_sudoku(filepath)
     size = len(board)
 
-    print(f"=== Testing CPLEX CP Solver on {size}x{size} Board ===")
+    print(f"=== Testing PYSat Solver on {size}   x{size} Board ===")
     result = run_sat(board, size)
 
     print(f"Status: {result['status']}")

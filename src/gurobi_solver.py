@@ -100,7 +100,7 @@ if __name__ == "__main__":
     board = read_sudoku(filepath)
     size = len(board)
 
-    print(f"=== Testing CPLEX CP Solver on {size}x{size} Board ===")
+    print(f"=== Testing Gurobi Solver on {size}x{size} Board ===")
     result = run_gurobi(board, size)
 
     print(f"Status: {result['status']}")
