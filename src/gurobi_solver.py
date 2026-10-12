@@ -96,7 +96,7 @@ if __name__ == "__main__":
     from utils.printing_board import print_sudoku
     from utils.readSudoku import read_sudoku
 
-    filepath = "data/9/sudoku_9_0.txt"
+    filepath = "data/36/sudoku_36_0.txt"
     board = read_sudoku(filepath)
     size = len(board)
 

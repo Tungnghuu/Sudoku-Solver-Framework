@@ -14,3 +14,4 @@ ENV/
 # Benchmark outputs / logs
 *.csv
 *.log
+benchmark_1.py

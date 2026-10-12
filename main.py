@@ -6,9 +6,9 @@ from src.cplex_cp_solver import run_cplex_cp
 from src.sat_solver import run_sat
 
 if __name__ == "__main__":
-    size = 25
+    size = 36
     total_boards = 20
-    
+
     solvers = ['Gurobi (MILP)', 'CPLEX (MILP)', 'CPLEX (CP)', 'PySAT (CNF)']
     metrics = {s: {'success_count': 0, 'encoding_time': 0.0, 'solve_time': 0.0, 'total_time': 0.0, 'vars': 0, 'constraints': 0} for s in solvers}
 
@@ -23,15 +23,15 @@ if __name__ == "__main__":
         board = read_sudoku(filepath)
         print(f"Processing Board {i+1}/{total_boards}...")
 
-        # # Gurobi
-        # gurobi_res = run_gurobi(board, size)
-        # if gurobi_res['status'] in ['OPTIMAL', 'SATISFIABLE', True]:
-        #     metrics['Gurobi (MILP)']['success_count'] += 1
-        #     metrics['Gurobi (MILP)']['encoding_time'] += gurobi_res['encoding_time']
-        #     metrics['Gurobi (MILP)']['solve_time'] += gurobi_res['solve_time']
-        #     metrics['Gurobi (MILP)']['total_time'] += gurobi_res['total_time']
-        #     metrics['Gurobi (MILP)']['vars'] = gurobi_res['vars']
-        #     metrics['Gurobi (MILP)']['constraints'] = gurobi_res['constraints']
+        # Gurobi
+        gurobi_res = run_gurobi(board, size)
+        if gurobi_res['status'] in ['OPTIMAL', 'SATISFIABLE', True]:
+            metrics['Gurobi (MILP)']['success_count'] += 1
+            metrics['Gurobi (MILP)']['encoding_time'] += gurobi_res['encoding_time']
+            metrics['Gurobi (MILP)']['solve_time'] += gurobi_res['solve_time']
+            metrics['Gurobi (MILP)']['total_time'] += gurobi_res['total_time']
+            metrics['Gurobi (MILP)']['vars'] = gurobi_res['vars']
+            metrics['Gurobi (MILP)']['constraints'] = gurobi_res['constraints']
 
         # CPLEX MIP
         cplex_res = run_cplex_mip(board, size)
