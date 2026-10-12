@@ -1,22 +1,16 @@
 import math
 import time
-
 from docplex.cp.model import CpoModel as CplexCPModel
-
 
 def run_cplex_cp(board, n):
     b = int(math.isqrt(n))
-    if b * b != n:
-        raise ValueError(
-            f"Sudoku size {n} is invalid."
-        )
 
     t_enc_start = time.perf_counter()
 
-    model = CplexCPModel(name="Sudoku_CP")
+    model = CplexCPModel(name = "Sudoku_CP")
 
     grid = [
-        [model.integer_var(1, n, name=f"x_{r}_{c}") for c in range(n)]
+        [model.integer_var(1, n, name = f"x_{r}_{c}") for c in range(n)]
         for r in range(n)
     ]
 
@@ -56,14 +50,14 @@ def run_cplex_cp(board, n):
         solve_time = time.perf_counter() - t_solve_start
 
         if res:
-            status_str = res.get_solve_status() # Feasible
+            status_str = res.get_solve_status() # Feasible (SAT)
             if res.is_solution():
                 solved_board = [[0] * n for _ in range(n)]
                 for r in range(n):
                     for c in range(n):
                         solved_board[r][c] = res.get_value(grid[r][c])
         else:
-            status_str = "INFEASIBLE"
+            status_str = "INFEASIBLE" # UNSAT
 
     except Exception as e:
         solve_time = time.perf_counter() - t_solve_start
@@ -75,8 +69,8 @@ def run_cplex_cp(board, n):
         "encoding_time": enc_time,
         "solve_time": solve_time,
         "total_time": enc_time + solve_time,
-        "vars": n * n,
-        "constraints": 3 * n + (n * n - sum(row.count(0) for row in board)),
+        "vars": len(model.get_all_variables()),
+        "constraints": len(model.get_all_expressions()),
         "solved_board": solved_board,
     }
 

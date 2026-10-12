@@ -11,7 +11,8 @@ ENV/
 # VSCode
 .vscode/
 
-# Benchmark outputs / logs
-*.csv
+# Logs
 *.log
-benchmark_1.py
+
+# Experiment
+experiment/

@@ -5,9 +5,6 @@ from docplex.mp.utils import DOcplexException
 
 def run_cplex_mip(board, n):
     b = int(math.isqrt(n))
-    if b * b != n:
-        raise ValueError(f"Sudoku size {n} is invalid. Size must be a perfect square.")
-
     t_enc_start = time.perf_counter()
 
     model = Model(name="Sudoku_MILP")
@@ -54,6 +51,7 @@ def run_cplex_mip(board, n):
 
     enc_time = time.perf_counter() - t_enc_start
     t_solve_start = time.perf_counter()
+    solved_board = None
 
     try:
         sol = model.solve()

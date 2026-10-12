@@ -3,12 +3,12 @@ from pysat.solvers import Solver
 from src.encoding.cnf_encoding import value, getSudokuFormula
 from src.utils.printing_board import returnSolvedBoard_sat
 
-def run_sat(board, n, solver_name='g3'):
+def run_sat(board, n, solver_name='g3', encoding='pairwise'):
     t_enc_start = time.perf_counter()
 
-    formula = getSudokuFormula(n)
+    formula = getSudokuFormula(n, amo_encoding=encoding)
 
-    # Append clues
+    # Given clues
     for r in range(n):
         for c in range(n):
             digit = board[r][c]
