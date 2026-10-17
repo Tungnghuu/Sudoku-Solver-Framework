@@ -6,14 +6,17 @@ def value(row, column, digit, n):
 
 def add_amo(formula, literals, encoding, top_id):
     if encoding == "pairwise":
+        # Compare every pair
         for index, first in enumerate(literals):
             for second in literals[index + 1:]:
+                # Add clause: both cannot be true at the same time
                 formula.append([-first, -second])
         return top_id
 
     if encoding == "seqcounter":
         from pysat.card import CardEnc, EncType
 
+        # Use PySAT CardEnc to generate At-Most-One clauses efficiently
         encoded = CardEnc.atmost(
             lits = literals,
             bound = 1,
@@ -21,6 +24,7 @@ def add_amo(formula, literals, encoding, top_id):
             top_id = top_id,
         )
 
+        # Add to formula list
         formula.extend(encoded.clauses)
         return encoded.nv
 

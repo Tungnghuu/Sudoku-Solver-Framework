@@ -4,11 +4,11 @@ from docplex.cp.model import CpoModel as CplexCPModel
 
 def run_cplex_cp(board, n):
     b = int(math.isqrt(n))
-
     t_enc_start = time.perf_counter()
 
     model = CplexCPModel(name = "Sudoku_CP")
 
+    # Cell
     grid = [
         [model.integer_var(1, n, name = f"x_{r}_{c}") for c in range(n)]
         for r in range(n)
@@ -39,12 +39,14 @@ def run_cplex_cp(board, n):
             if digit > 0:
                 model.add(grid[r][c] == digit)
 
+    # Get encoding time and start solving timer
     enc_time = time.perf_counter() - t_enc_start
     t_solve_start = time.perf_counter()
 
     solved_board = None
     status_str = "UNKNOWN"
 
+    # Solve
     try:
         res = model.solve(LogVerbosity='Quiet')
         solve_time = time.perf_counter() - t_solve_start
@@ -78,7 +80,7 @@ if __name__ == "__main__":
     from utils.printing_board import print_sudoku
     from utils.readSudoku import read_sudoku
 
-    filepath = "data/9/sudoku_9_0.txt"
+    filepath = "data/36/36/sudoku_36_1.txt"
     board = read_sudoku(filepath)
     size = len(board)
 

@@ -6,6 +6,7 @@ from src.utils.printing_board import returnSolvedBoard_sat
 def run_sat(board, n, solver_name='g3', encoding='pairwise'):
     t_enc_start = time.perf_counter()
 
+    # Encoding
     formula = getSudokuFormula(n, amo_encoding=encoding)
 
     # Given clues
@@ -15,6 +16,7 @@ def run_sat(board, n, solver_name='g3', encoding='pairwise'):
             if digit > 0:
                 formula.append([value(r + 1, c + 1, digit, n)])
 
+    # Get encoding time ad start solving timer
     enc_time = time.perf_counter() - t_enc_start
     t_solve_start = time.perf_counter()
 
@@ -33,7 +35,6 @@ def run_sat(board, n, solver_name='g3', encoding='pairwise'):
                 solved_board = returnSolvedBoard_sat(board, model, n)
             else:
                 status_str = "UNSAT" # UNSAT
-
     except Exception as e:
         solve_time = time.perf_counter() - t_solve_start
         status_str = "SOLVER ERROR"

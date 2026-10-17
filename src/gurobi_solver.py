@@ -5,14 +5,16 @@ from gurobipy import GRB
 
 def run_gurobi(board, n):
     b = int(math.isqrt(n))
-
     t_enc_start = time.perf_counter()
 
+    # Initialize Gurobi, set quiet output
     env = gp.Env(empty=True)
     env.setParam('OutputFlag', 0)
     env.start()
 
     model = gp.Model("Sudoku_MILP", env=env)
+
+    # Create binary decision variabls for every cell and digit combination
     x = model.addVars(n, n, n, vtype=GRB.BINARY, name="x")
 
     # Cell
@@ -49,17 +51,26 @@ def run_gurobi(board, n):
             if digit > 0:
                 model.addConstr(x[r, c, digit - 1] == 1)
 
+    # get encoding time and start solving timer
     model.update()
     enc_time = time.perf_counter() - t_enc_start
     t_solve_start = time.perf_counter()
     solved_board = None
 
+    # Solve
     try:
         model.optimize()
         solve_time = time.perf_counter() - t_solve_start
 
-        if model.Status == GRB.OPTIMAL:
-            status_str = "OPTIMAL"
+        status_names = {
+            GRB.OPTIMAL: "OPTIMAL",
+            GRB.INFEASIBLE: "INFEASIBLE",
+            GRB.TIME_LIMIT: "TIME_LIMIT",
+            GRB.INTERRUPTED: "INTERRUPTED",
+        }
+        status_str = status_names.get(model.Status, f"STATUS_{model.Status}")
+
+        if model.SolCount > 0:
             solved_board = [[0] * n for _ in range(n)]
             for r in range(n):
                 for c in range(n):
@@ -67,13 +78,6 @@ def run_gurobi(board, n):
                         if x[r, c, d].X > 0.5:
                             solved_board[r][c] = d + 1
                             break
-
-        elif model.Status == GRB.INFEASIBLE:
-            status_str = "INFEASIBLE"
-        elif model.Status == GRB.TIME_LIMIT:
-            status_str = "TIME_LIMIT"
-        else:
-            status_str = f"STATUS_{model.Status}"
 
     except gp.GurobiError as e:
         solve_time = time.perf_counter() - t_solve_start
@@ -89,7 +93,6 @@ def run_gurobi(board, n):
         'constraints': model.NumConstrs,
         'solved_board': solved_board
     }
-
 
 if __name__ == "__main__":
     from utils.printing_board import print_sudoku

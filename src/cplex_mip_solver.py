@@ -10,6 +10,7 @@ def run_cplex_mip(board, n):
     model = Model(name="Sudoku_MILP")
     model.context.solver.log_output = False
 
+    # Binary decision variabl for every cell and digit combination
     x = model.binary_var_dict(
         [(r, c, d) for r in range(n) for c in range(n) for d in range(n)],
         name="x"
@@ -49,10 +50,12 @@ def run_cplex_mip(board, n):
             if digit > 0:
                 model.add_constraint(x[r, c, digit - 1] == 1)
 
+    # Get encoding time and start solving timer
     enc_time = time.perf_counter() - t_enc_start
     t_solve_start = time.perf_counter()
     solved_board = None
 
+    # Solve
     try:
         sol = model.solve()
         solve_time = time.perf_counter() - t_solve_start
