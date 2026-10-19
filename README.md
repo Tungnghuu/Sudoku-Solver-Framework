@@ -1,8 +1,8 @@
-# Comparative Benchmark: SAT, CP, and MILP Solvers for Sudoku
+# Comparative Evaluation: SAT, CP, and MILP Solvers for Sudoku
 
 Evaluation framework and performance benchmarks comparing **SAT**, **Constraint Programming (CP)**, and **Mixed-Integer Linear Programming (MILP)** solvers on Sudoku boards $9 \times 9$ up to $36 \times 36$.
 
-## 📌 Solver Configurations
+## Solver Configurations 
 
 * **SAT (`PySAT`)**: CNF encodings via Pairwise ($\mathcal{O}(N^2)$) and Sequential Counter ($\mathcal{O}(N)$) At-Most-One (AMO) constraints.
 * **CP (`IBM CPLEX CP`)**: Direct integer modeling ($X_{i,j} \in \{1, \dots, N\}$) using built-in `all_different` global constraints.
@@ -10,8 +10,9 @@ Evaluation framework and performance benchmarks comparing **SAT**, **Constraint 
 
 ---
 
-## 🛠️ Quick Start
+## Quick Start
 
 ### Installation
+To run CP and MILP on $16 \times 16$ board and so on, a registered license (Academic/Commercial) for Gurobi and CPLEX is required.
 ```bash
 pip install python-sat gurobipy docplex numpy matplotlib
